@@ -6,6 +6,7 @@ import moment from "moment";
 function CurrentBlock({ current, onBlockClick }) {
   const { dt, temp, feels_like, humidity, weather } = current;
   const { description, icon } = weather[0];
+  console.log(dt);
   const monthOffset = 1;
   const month = ("0" + (moment.unix(dt).month() + monthOffset)).slice(-2);
   const date = ("0" + moment.unix(dt).date()).slice(-2);
@@ -16,7 +17,7 @@ function CurrentBlock({ current, onBlockClick }) {
     <div className="flex m-4">
       <button onClick={onBlockClick} id="0">
         <div className="max-w-lg rounded overflow-hidden shadow-lg bg-blue-200 p-4">
-          <div className="flex">
+          <div className="flex mr-2">
             <div>
               <img
                 className="w-32"
@@ -33,11 +34,11 @@ function CurrentBlock({ current, onBlockClick }) {
             </div>
           </div>
 
-          <p className="ml-6">
+          <p className="">
             Weather: <span className="text-lg capitalize">{description}</span>
           </p>
 
-          <p className="ml-6">
+          <p className="">
             Humidity: <span className="text-xl">{`${humidity}%`}</span>
           </p>
         </div>

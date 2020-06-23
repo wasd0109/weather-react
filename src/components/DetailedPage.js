@@ -45,12 +45,12 @@ function DetailedPage({ route, dailyForecast, onPopupClick }) {
             <div className="flex justify-center">
               <div>
                 <img
-                  className="w-32"
+                  className="mr-8"
                   src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
                   alt="Current Weather"
                 />
               </div>
-              <div className="justify-end">
+              <div className="justify-end m-4">
                 <p className="text-sm">Max</p>
                 <p className="text-3xl">{max}°C</p>
                 <p className="text-sm">Min</p>

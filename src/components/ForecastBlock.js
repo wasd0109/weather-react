@@ -35,9 +35,9 @@ function ForecastBlock({
   feels_like += kelvinToCelsius;
   return (
     <button onClick={onBlockClick} id={id}>
-      <div className="flex">
+      <div className="flex center">
         <div className="max-w-lg rounded overflow-hidden shadow-lg bg-blue-200 p-4">
-          <div className="flex">
+          <div className="flex  mr-2">
             <div>
               <img
                 className="w-32"
@@ -50,15 +50,15 @@ function ForecastBlock({
               <p className="text-3xl">{`${temp.toFixed(1)}°C`}</p>
               <p className="text-sm m-0">Feels Like:</p>
               <p className="text-2xl">{`${feels_like.toFixed(1)}°C`}</p>
-              <p className=" text-3xl m-0">{`${month}/${date}`}</p>
+              <p className="text-3xl m-0">{`${month}/${date}`}</p>
             </div>
           </div>
 
-          <p className="ml-6">
+          <p>
             Weather: <span className="text-lg capitalize ">{description}</span>
           </p>
 
-          <p className="ml-6">
+          <p>
             Humidity: <span className="text-xl">{`${humidity}%`}</span>
           </p>
         </div>
