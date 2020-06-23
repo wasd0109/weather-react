@@ -34,7 +34,11 @@ function ForecastBlock({
   temp += kelvinToCelsius;
   feels_like += kelvinToCelsius;
   return (
-    <button onClick={onBlockClick} id={id}>
+    <button
+      class="transform hover:scale-105 m-4"
+      onClick={onBlockClick}
+      id={id}
+    >
       <div className="flex center">
         <div className="max-w-lg rounded overflow-hidden shadow-lg bg-blue-200 p-4">
           <div className="flex  mr-2">

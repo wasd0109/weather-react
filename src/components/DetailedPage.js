@@ -30,14 +30,14 @@ function DetailedPage({ route, dailyForecast, onPopupClick }) {
       <div>
         <div
           id="outsidePop"
-          className="bg-black bg-opacity-50 fixed cursor-pointer"
+          className="bg-black bg-opacity-75 hover:bg-opacity-50 fixed cursor-pointer z-10"
           onClick={onPopupClick}
         >
           Hello
         </div>
         <div
           id="popup"
-          className="z-10 fixed bg-blue-300 mx-auto p-3 shadow-lg rounded max-w-xl  overflow-hidden  bg-blue-300"
+          className="z-20 fixed bg-blue-200 mx-auto p-3 shadow-lg rounded max-w-xl overflow-hidden"
         >
           <div className="flex justify-center">
             <div>

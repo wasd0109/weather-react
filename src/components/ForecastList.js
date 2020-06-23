@@ -14,7 +14,7 @@ function ForecastList({ dailyForecast, onBlockClick }) {
           const { description, icon } = forecast.weather[0];
 
           return (
-            <div className="m-4">
+            <div>
               <ForecastBlock
                 id={i + 1}
                 key={Number(dt)}

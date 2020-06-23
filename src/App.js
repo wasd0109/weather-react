@@ -91,7 +91,7 @@ class App extends React.Component {
             Weather in <span className="text-4xl">{country}</span>
           </h1>
           <CurrentBlock
-            className="flex justify-center"
+            className="block"
             current={current}
             onBlockClick={this.onBlockClick}
           ></CurrentBlock>
