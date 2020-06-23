@@ -13,7 +13,7 @@ function CurrentBlock({ current }) {
   const tempCelsius = temp + kelvinToCelsius;
   const feels_likeCelsius = feels_like + kelvinToCelsius;
   return (
-    <div className="flex mt-4">
+    <div className="flex m-4">
       <div className="max-w-lg rounded overflow-hidden shadow-lg bg-blue-100 p-4">
         <div className="flex">
           <div>
@@ -33,7 +33,7 @@ function CurrentBlock({ current }) {
         </div>
 
         <p className="ml-6">
-          Weather: <span className="text-xl capitalize">{description}</span>
+          Weather: <span className="text-lg capitalize">{description}</span>
         </p>
 
         <p className="ml-6">

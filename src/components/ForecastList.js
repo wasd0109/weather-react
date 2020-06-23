@@ -2,9 +2,10 @@ import React from "react";
 import ForecastBlock from "./ForecastBlock";
 
 function ForecastList({ dailyForecast }) {
+  dailyForecast = dailyForecast.filter((forecast, i) => i > 0); //Remove current day from forecast
   return (
     <div>
-      <h2>7 Day forecast</h2>
+      <h2 className="text-2xl ml-4">7 Day forecast</h2>
       <div className="flex flex-wrap ">
         {dailyForecast.map((forecast) => {
           const { dt, humidity } = forecast;
