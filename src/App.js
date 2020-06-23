@@ -1,5 +1,5 @@
 import React from "react";
-import ForecastBlock from "./components/ForecastBlock";
+import ForecastList from "./components/ForecastList";
 import "./App.css";
 import "./output.css";
 
@@ -12,8 +12,8 @@ class App extends React.Component {
       longitude: "",
       data: {},
       current: {},
-      currentWeather: {},
       dailyForecast: {},
+      isLoading: true,
     };
   }
 
@@ -45,7 +45,6 @@ class App extends React.Component {
         this.setState({
           data: data,
           current: data.current,
-          currentWeather: data.current.weather[0],
           dailyForecast: data.daily,
         })
       );
@@ -53,24 +52,16 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getGeolocation();
+    this.setState({ isLoading: false });
   }
 
   render() {
-    const { timezone_offset } = this.state.data;
-    const { dt, temp, feels_like, humidity } = this.state.current;
-    const { description, icon } = this.state.currentWeather;
-
-    return !Object.entries(this.state.data).length ? (
-      <h1>Loading</h1>
-    ) : (
-      <ForecastBlock
-        dt={dt}
-        timezone_offset={timezone_offset}
-        temp={temp}
-        feels_like={feels_like}
-        humidity={humidity}
-        weatherDescription={description}
-        weatherIcon={icon}
+    const { data, current, dailyForecast, isLoading } = this.state;
+    return (
+      <ForecastList
+        data={data}
+        current={current}
+        dailyForecast={dailyForecast}
       />
     );
   }

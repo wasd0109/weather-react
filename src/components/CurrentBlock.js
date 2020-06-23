@@ -3,7 +3,7 @@ import moment from "moment";
 
 //dt,timezone_offset, temp,feels_like,humidity,weather.main/.description/.icon
 
-function ForecastBlock({
+function CurrentBlock({
   dt,
   timezone_offset,
   temp,
@@ -51,4 +51,4 @@ function ForecastBlock({
   );
 }
 
-export default ForecastBlock;
+export default CurrentBlock;
