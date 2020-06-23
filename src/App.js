@@ -14,7 +14,6 @@ class App extends React.Component {
       data: {},
       current: {},
       dailyForecast: {},
-      timezone_offset: 0,
     };
   }
 
@@ -44,7 +43,6 @@ class App extends React.Component {
       .then((response) => response.json())
       .then((data) =>
         this.setState({
-          timezone_offset: data.timezone_offset,
           current: data.current,
           dailyForecast: data.daily,
         })
@@ -56,18 +54,12 @@ class App extends React.Component {
   }
 
   render() {
-    const { current, dailyForecast, timezone_offset } = this.state;
+    const { current, dailyForecast } = this.state;
     if (Object.entries(current).length) {
       return (
         <div>
-          <CurrentBlock
-            timezone_offset={timezone_offset}
-            current={current}
-          ></CurrentBlock>
-          <ForecastList
-            timezone_offset={timezone_offset}
-            dailyForecast={dailyForecast}
-          />
+          <CurrentBlock current={current}></CurrentBlock>
+          <ForecastList dailyForecast={dailyForecast} />
         </div>
       );
     } else

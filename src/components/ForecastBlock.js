@@ -17,21 +17,10 @@ import moment from "moment";
 
 //dt,timezone_offset, temp,feels_like,humidity,weather.main/.description/.icon
 
-function ForecastBlock({
-  dt,
-  timezone_offset,
-  temp,
-  feels_like,
-  humidity,
-  description,
-  icon,
-}) {
+function ForecastBlock({ dt, temp, feels_like, humidity, description, icon }) {
   const monthOffset = 1;
-  let month = (
-    "0" +
-    (moment.unix(dt + timezone_offset).month() + monthOffset)
-  ).slice(-2);
-  let date = ("0" + moment.unix(dt + timezone_offset).date()).slice(-2);
+  let month = ("0" + (moment.unix(dt).month() + monthOffset)).slice(-2);
+  let date = ("0" + moment.unix(dt).date()).slice(-2);
   const kelvinToCelsius = -273.15;
   temp += kelvinToCelsius;
   feels_like += kelvinToCelsius;
@@ -56,7 +45,7 @@ function ForecastBlock({
         </div>
 
         <p className="ml-6">
-          Weather: <span className="text-xl capitalize">{description}</span>
+          Weather: <span className="text-lg capitalize ">{description}</span>
         </p>
 
         <p className="ml-6">

@@ -3,20 +3,17 @@ import moment from "moment";
 
 //dt,timezone_offset, temp,feels_like,humidity,weather.main/.description/.icon
 
-function CurrentBlock({ timezone_offset, current }) {
+function CurrentBlock({ current }) {
   const { dt, temp, feels_like, humidity, weather } = current;
   const { description, icon } = weather[0];
   const monthOffset = 1;
-  let month = (
-    "0" +
-    (moment.unix(dt + timezone_offset).month() + monthOffset)
-  ).slice(-2);
-  let date = ("0" + moment.unix(dt + timezone_offset).date()).slice(-2);
+  let month = ("0" + (moment.unix(dt).month() + monthOffset)).slice(-2);
+  let date = ("0" + moment.unix(dt).date()).slice(-2);
   const kelvinToCelsius = -273.15;
   const tempCelsius = temp + kelvinToCelsius;
   const feels_likeCelsius = feels_like + kelvinToCelsius;
   return (
-    <div className="flex">
+    <div className="flex mt-4">
       <div className="max-w-lg rounded overflow-hidden shadow-lg bg-blue-100 p-4">
         <div className="flex">
           <div>
