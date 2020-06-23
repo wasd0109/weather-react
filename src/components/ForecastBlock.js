@@ -1,6 +1,20 @@
 import React from "react";
 import moment from "moment";
 
+// const { timezone_offset } = data;
+// const { dt, temp, feels_like, humidity, weather } = current;
+// const { description, icon } = weather[0];
+// return (
+//   <ForecastBlock
+//     dt={dt}
+//     timezone_offset={timezone_offset}
+//     temp={temp}
+//     feels_like={feels_like}
+//     humidity={humidity}
+//     weatherDescription={description}
+//     weatherIcon={icon}
+//   />
+
 //dt,timezone_offset, temp,feels_like,humidity,weather.main/.description/.icon
 
 function ForecastBlock({
@@ -9,12 +23,15 @@ function ForecastBlock({
   temp,
   feels_like,
   humidity,
-  weatherDescription,
-  weatherIcon,
+  description,
+  icon,
 }) {
   const monthOffset = 1;
-  let month = ("0" + (moment.unix(dt).month() + monthOffset)).slice(-2);
-  let date = ("0" + moment.unix(dt).date()).slice(-2);
+  let month = (
+    "0" +
+    (moment.unix(dt + timezone_offset).month() + monthOffset)
+  ).slice(-2);
+  let date = ("0" + moment.unix(dt + timezone_offset).date()).slice(-2);
   const kelvinToCelsius = -273.15;
   temp += kelvinToCelsius;
   feels_like += kelvinToCelsius;
@@ -25,7 +42,7 @@ function ForecastBlock({
           <div>
             <img
               className="w-32"
-              src={`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`}
+              src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
               alt="Current Weather"
             />
           </div>
@@ -39,8 +56,7 @@ function ForecastBlock({
         </div>
 
         <p className="ml-6">
-          Weather:{" "}
-          <span className="text-xl capitalize">{weatherDescription}</span>
+          Weather: <span className="text-xl capitalize">{description}</span>
         </p>
 
         <p className="ml-6">

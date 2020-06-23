@@ -1,28 +1,29 @@
 import React from "react";
 import ForecastBlock from "./ForecastBlock";
 
-function ForecastList({ data, current, dailyForecast, isLoading }) {
-  if (Object.entries(data).length) {
-    const { timezone_offset } = data;
-    const { dt, temp, feels_like, humidity, weather } = current;
-    const { description, icon } = weather[0];
-    return (
-      <ForecastBlock
-        dt={dt}
-        timezone_offset={timezone_offset}
-        temp={temp}
-        feels_like={feels_like}
-        humidity={humidity}
-        weatherDescription={description}
-        weatherIcon={icon}
-      />
-    );
-  } else
+function ForecastList({ dailyForecast, timezone_offset }) {
+  dailyForecast = dailyForecast.filter((forecast, i) => i > 1); //Remove first two day (yesterday and today forecast)
+  return dailyForecast.map((forecast, i) => {
+    const { dt, humidity } = forecast;
+    const temp = forecast.temp.day;
+    const feels_like = forecast.feels_like.day;
+    const { description, icon } = forecast.weather[0];
+    console.log(description);
+
     return (
       <div>
-        <h1>Loading</h1>
+        <ForecastBlock
+          dt={dt}
+          timezone_offset={timezone_offset}
+          humidity={humidity}
+          temp={temp}
+          feels_like={feels_like}
+          description={description}
+          icon={icon}
+        />
       </div>
     );
+  });
 }
 
 export default ForecastList;
