@@ -12,9 +12,11 @@ function ForecastBlock({
   weatherDescription,
   weatherIcon,
 }) {
+  console.log(timezone_offset);
   const monthOffset = 1;
   let month = ("0" + (moment.unix(dt).month() + monthOffset)).slice(-2);
   let date = ("0" + moment.unix(dt).date()).slice(-2);
+  const kelvinToCelsius = -273.15;
   return (
     <div className="flex">
       <div className="max-w-lg rounded overflow-hidden shadow-lg bg-blue-100 p-4">
@@ -28,9 +30,13 @@ function ForecastBlock({
           </div>
 
           <div className="justify-end m-0">
-            <p className="text-3xl">{`${temp}°C`}</p>
+            <p className="text-3xl">{`${(temp + kelvinToCelsius).toFixed(
+              1
+            )}°C`}</p>
             <p className="text-sm m-0">Feels Like:</p>
-            <p className="text-2xl">{`${feels_like}°C`}</p>
+            <p className="text-2xl">{`${(feels_like + kelvinToCelsius).toFixed(
+              1
+            )}°C`}</p>
             <p className=" text-3xl m-0">{`${month}/${date}`}</p>
           </div>
         </div>

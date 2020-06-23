@@ -10,6 +10,10 @@ class App extends React.Component {
     this.state = {
       latitude: "",
       longitude: "",
+      data: {},
+      current: {},
+      currentWeather: {},
+      dailyForecast: {},
     };
   }
 
@@ -34,10 +38,17 @@ class App extends React.Component {
 
   getWeather() {
     fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${this.state.latitude}&lon=${this.state.longitude}&exclude=minutely,hourly,daily&appid=648f9c780527e242ca6a26f3b1b28467`
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${this.state.latitude}&lon=${this.state.longitude}&exclude=minutely,hourly&appid=648f9c780527e242ca6a26f3b1b28467`
     )
       .then((response) => response.json())
-      .then(console.log);
+      .then((data) =>
+        this.setState({
+          data: data,
+          current: data.current,
+          currentWeather: data.current.weather[0],
+          dailyForecast: data.daily,
+        })
+      );
   }
 
   componentDidMount() {
@@ -45,15 +56,21 @@ class App extends React.Component {
   }
 
   render() {
-    return (
+    const { timezone_offset } = this.state.data;
+    const { dt, temp, feels_like, humidity } = this.state.current;
+    const { description, icon } = this.state.currentWeather;
+
+    return !Object.entries(this.state.data).length ? (
+      <h1>Loading</h1>
+    ) : (
       <ForecastBlock
-        dt="1588935779"
-        timezone_offset="-18000"
-        temp="16.75"
-        feels_like="16.07"
-        humidity="93"
-        weatherDescription="moderate rain"
-        weatherIcon="10n"
+        dt={dt}
+        timezone_offset={timezone_offset}
+        temp={temp}
+        feels_like={feels_like}
+        humidity={humidity}
+        weatherDescription={description}
+        weatherIcon={icon}
       />
     );
   }
