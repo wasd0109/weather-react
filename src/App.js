@@ -3,8 +3,8 @@ import ForecastList from "./components/ForecastList";
 import CurrentBlock from "./components/CurrentBlock";
 import "./App.css";
 import "./output.css";
-const __OPEN_WEATHER_MAP_KEY = "***REMOVED***";
-const __LOCATION__IQ_KEY = "***REMOVED***";
+const __OPEN_WEATHER_MAP_KEY = "";
+const __LOCATION__IQ_KEY = "";
 
 class App extends React.Component {
   constructor(props) {
