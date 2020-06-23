@@ -1,0 +1,12 @@
+#popup {
+  top: 50%;
+  left: 50%;
+  margin-top: -167px;
+  margin-left: -165.5px;
+}
+#outsidePop {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

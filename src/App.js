@@ -1,10 +1,9 @@
 import React from "react";
 import ForecastList from "./components/ForecastList";
 import CurrentBlock from "./components/CurrentBlock";
+import DetailedPage from "./components/DetailedPage";
 import "./App.css";
 import "./output.css";
-const __OPEN_WEATHER_MAP_KEY = "";
-const __LOCATION__IQ_KEY = "";
 
 class App extends React.Component {
   constructor(props) {
@@ -13,10 +12,11 @@ class App extends React.Component {
     this.state = {
       latitude: "",
       longitude: "",
-      data: {},
       current: {},
       dailyForecast: {},
       country: "",
+      route: "home",
+      detailHidden: "true",
     };
   }
 
@@ -42,7 +42,7 @@ class App extends React.Component {
   getCountry() {
     const { latitude, longitude } = this.state;
     fetch(
-      `https://us1.locationiq.com/v1/reverse.php?key=${__LOCATION__IQ_KEY}&lat=${latitude}&lon=${longitude}&format=json`
+      `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&lat=${latitude}&lon=${longitude}&format=json`
     )
       .then((resp) => resp.json())
       .then((data) =>
@@ -52,7 +52,7 @@ class App extends React.Component {
 
   getWeather() {
     fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${this.state.latitude}&lon=${this.state.longitude}&exclude=minutely,hourly&appid=${__OPEN_WEATHER_MAP_KEY}`
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${this.state.latitude}&lon=${this.state.longitude}&exclude=minutely,hourly&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_KEY}`
     )
       .then((response) => response.json())
       .then((data) =>
@@ -63,20 +63,43 @@ class App extends React.Component {
       );
   }
 
+  onBlockClick = (event) => {
+    this.setState({ route: event.currentTarget.id });
+  };
+
+  onPopupClick = () => {
+    this.setState({ route: "home" });
+  };
+
   componentDidMount() {
     this.getGeolocation();
   }
 
   render() {
-    const { current, dailyForecast, country } = this.state;
+    const { current, dailyForecast, country, route, detailHidden } = this.state;
+
     if (Object.entries(current).length) {
       return (
-        <div>
-          <h1 className="text-2xl">
-            Weather in <span className="m-4 text-4xl">{country}</span>
+        <div className="center">
+          <DetailedPage
+            route={route}
+            dailyForecast={dailyForecast}
+            hidden={detailHidden}
+            onPopupClick={this.onPopupClick}
+          />
+          <h1 className="m-4 md:text-2xl">
+            Weather in <span className="text-4xl">{country}</span>
           </h1>
-          <CurrentBlock current={current}></CurrentBlock>
-          <ForecastList dailyForecast={dailyForecast} />
+          <CurrentBlock
+            className="flex justify-center"
+            current={current}
+            onBlockClick={this.onBlockClick}
+          ></CurrentBlock>
+
+          <ForecastList
+            dailyForecast={dailyForecast}
+            onBlockClick={this.onBlockClick}
+          />
         </div>
       );
     } else
