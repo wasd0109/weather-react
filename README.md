@@ -1,3 +1,13 @@
+# Weather app with react
+An interactive app allowing users to check
+
+## Future plan
+Support user search location
+Set default geolocation even if geolocation is disabled
+Dynamic block color representing weather condition
+Dyanamic background representing current weather
+Improve loading screen
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
