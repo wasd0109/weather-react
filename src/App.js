@@ -4,6 +4,7 @@ import CurrentBlock from "./components/CurrentBlock";
 import DetailedPage from "./components/DetailedPage";
 import "./App.css";
 import "./output.css";
+import githubIcon from "./assets/github.png";
 
 class App extends React.Component {
   constructor(props) {
@@ -100,6 +101,16 @@ class App extends React.Component {
             dailyForecast={dailyForecast}
             onBlockClick={this.onBlockClick}
           />
+          <footer className="text-center bg-blue-400 text-lg">
+            by Ken Cheung
+            <a href="https://github.com/wasd0109">
+              <img
+                className="w-6 inline mx-4"
+                src={githubIcon}
+                alt="github icon"
+              />
+            </a>
+          </footer>
         </div>
       );
     } else
