@@ -1,5 +1,8 @@
 # Weather app with react
-An interactive app allowing users to check
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/73cbaa71-f0d4-4bce-a0f6-6c977a3fe138/deploy-status)](https://app.netlify.com/sites/vigorous-colden-7c557a/deploys)
+
+An interactive app allowing users to check current and future weather
 
 ## Future plan
 Support user search location
