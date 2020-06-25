@@ -7,37 +7,47 @@ import SearchBar from "./components/SearchBar";
 import "./App.css";
 import "./output.css";
 import githubIcon from "./assets/github.png";
+import Warning from "./components/Warning";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      latitude: "",
-      longitude: "",
+      latitude: "35.6828387",
+      longitude: "139.7594549",
       current: {},
       dailyForecast: {},
       city: "",
       route: "home",
       detailHidden: "true",
       searchCity: "",
+      locationDisabled: false,
     };
   }
 
   getGeolocation() {
     const { latitude, longitude } = this.state;
-    if (navigator.geolocation && !latitude && !longitude) {
-      navigator.geolocation.getCurrentPosition((position) =>
-        this.setGeolocation(position)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => this.setGeolocation(position.coords),
+        () => {
+          this.setGeolocation({
+            latitude: latitude,
+            longitude: longitude,
+          });
+          this.setState({ locationDisabled: true });
+        }
       );
     }
   }
 
   setGeolocation(position) {
+    const { latitude, longitude } = position;
     this.setState(
       {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
+        latitude: latitude,
+        longitude: longitude,
       },
       this.getCity
     );
@@ -50,7 +60,12 @@ class App extends React.Component {
     )
       .then((resp) => resp.json())
       .then((data) =>
-        this.setState({ city: data.address.country }, this.getWeather)
+        this.setState(
+          {
+            city: data.address.city ? data.address.city : data.address.country,
+          },
+          this.getWeather
+        )
       );
   }
 
@@ -117,8 +132,14 @@ class App extends React.Component {
   }
 
   render() {
-    const { current, dailyForecast, city, route, detailHidden } = this.state;
-
+    const {
+      current,
+      dailyForecast,
+      city,
+      route,
+      detailHidden,
+      locationDisabled,
+    } = this.state;
     if (Object.entries(current).length) {
       return (
         <div className="center">
@@ -136,6 +157,7 @@ class App extends React.Component {
             onSearchClick={this.onSearchClick}
             onSearchEnterKey={this.onSearchEnterKey}
           />
+          <Warning locationDisabled={locationDisabled} />
           <CurrentBlock
             className="block"
             current={current}
@@ -143,7 +165,6 @@ class App extends React.Component {
           ></CurrentBlock>
           <h2 className="text-2xl ml-4">7 Day forecast</h2>
           <ForecastList
-            className="md:flex md:flex-wrap "
             dailyForecast={dailyForecast}
             onBlockClick={this.onBlockClick}
           />
