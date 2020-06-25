@@ -218,7 +218,7 @@ class App extends React.Component {
             dailyForecast={dailyForecast}
             onBlockClick={this.onBlockClick}
           />
-          <footer className="text-center bg-blue-400 text-lg">
+          <footer className="text-center text-white bg-black text-lg">
             by Ken Cheung
             <a href="https://github.com/wasd0109">
               <img
