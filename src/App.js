@@ -3,6 +3,7 @@ import ForecastList from "./components/ForecastList";
 import CurrentBlock from "./components/CurrentBlock";
 import DetailedPage from "./components/DetailedPage";
 import LoadingScreen from "./components/LoadingScreen";
+import SearchBar from "./components/SearchBar";
 import "./App.css";
 import "./output.css";
 import githubIcon from "./assets/github.png";
@@ -16,10 +17,10 @@ class App extends React.Component {
       longitude: "",
       current: {},
       dailyForecast: {},
-      country: "",
+      city: "",
       route: "home",
       detailHidden: "true",
-      loaded: false,
+      searchCity: "",
     };
   }
 
@@ -38,19 +39,38 @@ class App extends React.Component {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       },
-      this.getCountry
+      this.getCity
     );
   }
 
-  getCountry() {
+  getCity() {
     const { latitude, longitude } = this.state;
     fetch(
       `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&lat=${latitude}&lon=${longitude}&format=json`
     )
       .then((resp) => resp.json())
       .then((data) =>
-        this.setState({ country: data.address.country }, this.getWeather)
+        this.setState({ city: data.address.country }, this.getWeather)
       );
+  }
+
+  getCityCoords() {
+    const { searchCity } = this.state;
+    fetch(
+      `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchCity}&format=json`
+    )
+      .then((resp) => resp.json())
+      .then((data) =>
+        this.setState(
+          {
+            city: data[0].display_name,
+            latitude: data[0].lat,
+            longitude: data[0].lon,
+          },
+          this.getWeather
+        )
+      )
+      .catch((err) => console.log(err));
   }
 
   getWeather() {
@@ -62,7 +82,6 @@ class App extends React.Component {
         this.setState({
           current: data.current,
           dailyForecast: data.daily,
-          loaded: true,
         })
       );
   }
@@ -75,19 +94,30 @@ class App extends React.Component {
     this.setState({ route: "home" });
   };
 
+  onSearchChange = (event) => {
+    this.setState({ searchCity: event.target.value });
+  };
+
+  onSearchClick = () => {
+    const { searchCity } = this.state;
+    if (searchCity.length !== 0) {
+      this.getCityCoords();
+    }
+  };
+
+  onSearchEnterKey = (event) => {
+    const { searchCity } = this.state;
+    if (event.which === 13 && searchCity.length !== 0) {
+      this.getCityCoords();
+    }
+  };
+
   componentDidMount() {
     this.getGeolocation();
   }
 
   render() {
-    const {
-      current,
-      dailyForecast,
-      country,
-      route,
-      detailHidden,
-      loaded,
-    } = this.state;
+    const { current, dailyForecast, city, route, detailHidden } = this.state;
 
     if (Object.entries(current).length) {
       return (
@@ -99,8 +129,13 @@ class App extends React.Component {
             onPopupClick={this.onPopupClick}
           />
           <h1 className="m-4 md:text-2xl">
-            Weather in <span className="text-4xl">{country}</span>
+            Weather in <span className="text-4xl">{city}</span>
           </h1>
+          <SearchBar
+            onSearchChange={this.onSearchChange}
+            onSearchClick={this.onSearchClick}
+            onSearchEnterKey={this.onSearchEnterKey}
+          />
           <CurrentBlock
             className="block"
             current={current}
