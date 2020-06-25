@@ -6,7 +6,6 @@ import moment from "moment";
 function CurrentBlock({ current, onBlockClick }) {
   const { dt, temp, feels_like, humidity, weather } = current;
   const { description, icon } = weather[0];
-  console.log(dt);
   const monthOffset = 1;
   const month = ("0" + (moment.unix(dt).month() + monthOffset)).slice(-2);
   const date = ("0" + moment.unix(dt).date()).slice(-2);
@@ -15,7 +14,7 @@ function CurrentBlock({ current, onBlockClick }) {
   const feels_likeCelsius = feels_like + kelvinToCelsius;
   return (
     <button
-      class="transform hover:scale-105 m-4 block  "
+      className="transform hover:scale-105 m-4 block  "
       onClick={onBlockClick}
       id="0"
     >

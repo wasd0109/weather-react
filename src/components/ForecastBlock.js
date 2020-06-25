@@ -35,7 +35,7 @@ function ForecastBlock({
   feels_like += kelvinToCelsius;
   return (
     <button
-      class="transform hover:scale-105 m-4"
+      className="transform hover:scale-105 m-4"
       onClick={onBlockClick}
       id={id}
     >

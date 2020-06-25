@@ -2,6 +2,7 @@ import React from "react";
 import ForecastList from "./components/ForecastList";
 import CurrentBlock from "./components/CurrentBlock";
 import DetailedPage from "./components/DetailedPage";
+import LoadingScreen from "./components/LoadingScreen";
 import "./App.css";
 import "./output.css";
 import githubIcon from "./assets/github.png";
@@ -18,6 +19,7 @@ class App extends React.Component {
       country: "",
       route: "home",
       detailHidden: "true",
+      loaded: false,
     };
   }
 
@@ -60,6 +62,7 @@ class App extends React.Component {
         this.setState({
           current: data.current,
           dailyForecast: data.daily,
+          loaded: true,
         })
       );
   }
@@ -77,7 +80,14 @@ class App extends React.Component {
   }
 
   render() {
-    const { current, dailyForecast, country, route, detailHidden } = this.state;
+    const {
+      current,
+      dailyForecast,
+      country,
+      route,
+      detailHidden,
+      loaded,
+    } = this.state;
 
     if (Object.entries(current).length) {
       return (
@@ -116,7 +126,7 @@ class App extends React.Component {
     } else
       return (
         <div>
-          <h1>Loading</h1>
+          <LoadingScreen type="spin" color="#2a4365" />
         </div>
       );
   }
