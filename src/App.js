@@ -141,8 +141,9 @@ class App extends React.Component {
             current={current}
             onBlockClick={this.onBlockClick}
           ></CurrentBlock>
-
+          <h2 className="text-2xl ml-4">7 Day forecast</h2>
           <ForecastList
+            className="md:flex md:flex-wrap "
             dailyForecast={dailyForecast}
             onBlockClick={this.onBlockClick}
           />
