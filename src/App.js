@@ -71,10 +71,12 @@ class App extends React.Component {
       `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&lat=${latitude}&lon=${longitude}&format=json`
     );
     let data = await resp.json();
+    const { city, country } = data.address;
+    console.log(data);
 
     this.setState(
       {
-        city: data.address.city ? data.address.city : data.address.country,
+        city: city ? city : country,
       },
       () => this.getWeather(latitude, longitude)
     );
@@ -104,14 +106,14 @@ class App extends React.Component {
         `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchCity}&format=json`
       );
       let data = await resp.json();
-      console.log(data);
+      const { display_name, lat, lon } = data[0];
       this.setState(
         {
-          city: data[0].display_name,
-          latitude: data[0].lat,
-          longitude: data[0].lon,
+          city: display_name,
+          latitude: lat,
+          longitude: lon,
         },
-        () => this.getWeather(data[0].lat, data[0].lon)
+        () => this.getWeather(lat, lon)
       );
     } catch (err) {
       console.log(err);
@@ -141,13 +143,14 @@ class App extends React.Component {
         `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_KEY}`
       );
       let data = await response.json();
+      const { current, daily } = data;
       this.setState(
         {
-          current: data.current,
-          dailyForecast: data.daily,
+          current: current,
+          dailyForecast: daily,
           loaded: true,
         },
-        () => this.decideBackground(data.current)
+        () => this.decideBackground(current)
       );
     } catch (err) {
       console.log(err);
