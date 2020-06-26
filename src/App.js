@@ -200,6 +200,9 @@ class App extends React.Component {
   onPopupClick = () => {
     this.setState({ route: "home" });
   };
+  onButtonClick = () => {
+    this.setState({ route: "home" });
+  };
 
   onSearchChange = (event) => {
     this.setState({ searchCity: event.target.value });
@@ -251,6 +254,7 @@ class App extends React.Component {
             dailyForecast={dailyForecast}
             hidden={detailHidden}
             onPopupClick={this.onPopupClick}
+            onButtonClick={this.onButtonClick}
           />
           <h1 className="ml-4 md:text-2xl">
             Weather in <span className="text-4xl">{city}</span>

@@ -1,11 +1,12 @@
 import React from "react";
 import "./DetailedPage.css";
 import moment from "moment";
+import closeBtn from "../assets/close-button.svg";
 
 const objectMap = (obj, fn) =>
   Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
 
-function DetailedPage({ route, dailyForecast, onPopupClick }) {
+function DetailedPage({ route, dailyForecast, onPopupClick, onButtonClick }) {
   if (route === "home") {
     return <div className="hidden"></div>;
   } else {
@@ -38,6 +39,12 @@ function DetailedPage({ route, dailyForecast, onPopupClick }) {
           id="popup"
           className="z-20 fixed bg-blue-200 mx-auto p-3 shadow-lg rounded max-w-xl overflow-hidden"
         >
+          <img
+            src={closeBtn}
+            className="w-4 h-auto cursor-pointer absolute top-0 right-0 m-4"
+            alt=""
+            onClick={onButtonClick}
+          />
           <div className="flex justify-center">
             <div>
               <img
@@ -46,6 +53,7 @@ function DetailedPage({ route, dailyForecast, onPopupClick }) {
                 alt="Current Weather"
               />
             </div>
+
             <div className="justify-end m-4">
               <p className="text-sm">Max</p>
               <p className="text-3xl">{max}°C</p>
