@@ -4,6 +4,7 @@ import CurrentBlock from "./components/CurrentBlock";
 import DetailedPage from "./components/DetailedPage";
 import LoadingScreen from "./components/LoadingScreen";
 import SearchBar from "./components/SearchBar";
+import Alert from "./components/Alert";
 import Warning from "./components/Warning";
 import "./App.css";
 import "./output.css";
@@ -120,7 +121,7 @@ class App extends React.Component {
         () => this.getWeather(lat, lon)
       );
     } catch (err) {
-      console.log(err);
+      this.setState({ searchError: true });
     }
   }
 
@@ -233,6 +234,7 @@ class App extends React.Component {
       locationDisabled,
       loaded,
       backgroundPath,
+      searchError,
     } = this.state;
     if (loaded) {
       return (
@@ -259,6 +261,11 @@ class App extends React.Component {
             onSearchEnterKey={this.onSearchEnterKey}
           />
           <Warning
+            messageTitle={"Search Error"}
+            message={"Location not found"}
+            condition={searchError}
+          />
+          <Alert
             messageTitle={"Location Service Disabled"}
             message={"Please enable it to see forecasts of current location"}
             condition={locationDisabled}
