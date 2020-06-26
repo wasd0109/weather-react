@@ -6,7 +6,7 @@ function SearchBar({ onSearchChange, onSearchClick, onSearchEnterKey }) {
     <div>
       <div className="flex">
         <input
-          className="m-4 mr-0 h-12 placeholder-blue-800"
+          className="m-4 mb-0 pl-2 mr-0 h-12 placeholder-blue-800 border-t-2 border-b-2"
           type="text"
           name=""
           id="search"
@@ -15,7 +15,7 @@ function SearchBar({ onSearchChange, onSearchClick, onSearchEnterKey }) {
           onKeyPress={onSearchEnterKey}
         />
         <button
-          className="bg-blue-700 my-4 px-4 text-white"
+          className="bg-blue-700 mt-4 px-4 text-white"
           onClick={onSearchClick}
         >
           Search

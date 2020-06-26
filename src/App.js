@@ -6,6 +6,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import SearchBar from "./components/SearchBar";
 import Alert from "./components/Alert";
 import Warning from "./components/Warning";
+import SearchSuggestion from "./components/SearchSuggestion";
 import "./App.css";
 import "./output.css";
 import githubIcon from "./assets/github.png";
@@ -260,6 +261,7 @@ class App extends React.Component {
             onSearchClick={this.onSearchClick}
             onSearchEnterKey={this.onSearchEnterKey}
           />
+          <SearchSuggestion />
           <Warning
             messageTitle={"Search Error"}
             message={"Location not found"}
