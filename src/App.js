@@ -14,8 +14,10 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      latitude: "35.6828387",
-      longitude: "139.7594549",
+      latitude: "",
+      longitude: "",
+      defaultLatitude: "35.6828387",
+      defaultLongitude: "139.7594549",
       current: {},
       dailyForecast: {},
       city: "",
@@ -66,13 +68,15 @@ class App extends React.Component {
   //     );
   // }
 
-  async getCityName(latitude, longitude) {
+  async getCityName(
+    latitude = this.state.defaultLatitude,
+    longitude = this.state.defaultLongitude
+  ) {
     let resp = await fetch(
       `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&lat=${latitude}&lon=${longitude}&format=json`
     );
     let data = await resp.json();
     const { city, country } = data.address;
-    console.log(data);
 
     this.setState(
       {
