@@ -4,10 +4,10 @@ import CurrentBlock from "./components/CurrentBlock";
 import DetailedPage from "./components/DetailedPage";
 import LoadingScreen from "./components/LoadingScreen";
 import SearchBar from "./components/SearchBar";
+import Warning from "./components/Warning";
 import "./App.css";
 import "./output.css";
 import githubIcon from "./assets/github.png";
-import Warning from "./components/Warning";
 
 class App extends React.Component {
   constructor(props) {
@@ -23,6 +23,8 @@ class App extends React.Component {
       detailHidden: "true",
       searchCity: "",
       locationDisabled: false,
+      loaded: false,
+      backgroundPath: "https://wallpaper.dog/large/965994.jpg",
     };
   }
 
@@ -94,11 +96,50 @@ class App extends React.Component {
     )
       .then((response) => response.json())
       .then((data) =>
-        this.setState({
-          current: data.current,
-          dailyForecast: data.daily,
-        })
+        this.setState(
+          {
+            current: data.current,
+            dailyForecast: data.daily,
+            loaded: true,
+          },
+          this.decideBackground
+        )
       );
+  }
+
+  decideBackground() {
+    const { current } = this.state;
+    const weather = current.weather[0].main.toLowerCase();
+    if (weather.includes("clear")) {
+      this.setState({
+        backgroundPath: "https://wallpaper.dog/large/965994.jpg",
+      });
+    } else if (weather.includes("rain") || weather.includes("drizzle")) {
+      this.setState({
+        backgroundPath:
+          "https://avatars.mds.yandex.net/get-pdb/1342781/55b90480-4af4-49ae-90ea-4c7a7de5f870/orig",
+      });
+    } else if (weather.includes("thunderstorm")) {
+      this.setState({
+        backgroundPath:
+          "https://upload.wikimedia.org/wikipedia/commons/8/82/Lightning_Pritzerbe_01_%28MK%29.jpg",
+      });
+    } else if (weather.includes("snow")) {
+      this.setState({
+        backgroundPath:
+          "https://wordpress.accuweather.com/wp-content/uploads/2020/05/cropped-EXkyP-GWoAIHUxE.jpg",
+      });
+    } else if (weather.includes("fog")) {
+      this.setState({
+        backgroundPath:
+          "https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/weather/fog--mist/fog-in-the-treetops.jpg",
+      });
+    } else {
+      this.setState({
+        backgroundPath:
+          "https://s7d2.scene7.com/is/image/TWCNews/clouds_jpg_jpg-2",
+      });
+    }
   }
 
   onBlockClick = (event) => {
@@ -139,17 +180,26 @@ class App extends React.Component {
       route,
       detailHidden,
       locationDisabled,
+      loaded,
+      backgroundPath,
     } = this.state;
-    if (Object.entries(current).length) {
+    if (loaded) {
       return (
-        <div className="center">
+        <div
+          className="center m-0"
+          id="container"
+          style={{
+            backgroundImage: `url("${backgroundPath}")`,
+            backgroundSize: "cover",
+          }}
+        >
           <DetailedPage
             route={route}
             dailyForecast={dailyForecast}
             hidden={detailHidden}
             onPopupClick={this.onPopupClick}
           />
-          <h1 className="m-4 md:text-2xl">
+          <h1 className="ml-4 md:text-2xl">
             Weather in <span className="text-4xl">{city}</span>
           </h1>
           <SearchBar
@@ -168,7 +218,7 @@ class App extends React.Component {
             dailyForecast={dailyForecast}
             onBlockClick={this.onBlockClick}
           />
-          <footer className="text-center bg-blue-400 text-lg">
+          <footer className="text-center text-white bg-black text-lg">
             by Ken Cheung
             <a href="https://github.com/wasd0109">
               <img
