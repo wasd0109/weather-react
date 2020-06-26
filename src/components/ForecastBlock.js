@@ -3,18 +3,20 @@ import moment from "moment";
 
 const blockColor = (main) => {
   const weather = main.toLowerCase();
-  if (weather.includes("clear")) {
-    return "bg-blue-200";
-  } else if (weather.includes("rain") || weather.includes("drizzle")) {
-    return "bg-gray-500";
-  } else if (weather.includes("thunderstorm")) {
-    return "bg-yellow-300";
-  } else if (weather.includes("snow")) {
-    return "bg-white";
-  } else if (weather.includes("fog")) {
-    return "bg-gray-300";
-  } else {
-    return "bg-gray-200";
+  switch (String(weather)) {
+    case "clear":
+      return "bg-blue-200";
+    case "rain":
+    case "drizzle":
+      return "bg-gray-500";
+    case "thunderstorm":
+      return "bg-yellow-300";
+    case "snow":
+      return "bg-white";
+    case "fog":
+      return "bg-gray-300";
+    default:
+      return "bg-gray-200";
   }
 };
 
