@@ -47,60 +47,111 @@ class App extends React.Component {
         latitude: latitude,
         longitude: longitude,
       },
-      () => {
-        this.getCityName(latitude, longitude);
-      }
+      () => this.getCityName(latitude, longitude)
     );
   }
 
-  getCityName(latitude, longitude) {
-    fetch(
+  // getCityName(latitude, longitude) {
+  //   fetch(
+  //     `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&lat=${latitude}&lon=${longitude}&format=json`
+  //   )
+  //     .then((resp) => resp.json())
+  //     .then((data) =>
+  //       this.setState(
+  //         {
+  //           city: data.address.city ? data.address.city : data.address.country,
+  //         },
+  //         () => this.getWeather(latitude, longitude)
+  //       )
+  //     );
+  // }
+
+  async getCityName(latitude, longitude) {
+    let resp = await fetch(
       `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&lat=${latitude}&lon=${longitude}&format=json`
-    )
-      .then((resp) => resp.json())
-      .then((data) =>
-        this.setState(
-          {
-            city: data.address.city ? data.address.city : data.address.country,
-          },
-          () => this.getWeather(latitude, longitude)
-        )
-      );
+    );
+    let data = await resp.json();
+
+    this.setState(
+      {
+        city: data.address.city ? data.address.city : data.address.country,
+      },
+      () => this.getWeather(latitude, longitude)
+    );
   }
 
-  getCityCoords(searchCity) {
-    fetch(
-      `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchCity}&format=json`
-    )
-      .then((resp) => resp.json())
-      .then((data) =>
-        this.setState(
-          {
-            city: data[0].display_name,
-            latitude: data[0].lat,
-            longitude: data[0].lon,
-          },
-          this.getWeather(data[0].lat, data[0].lon)
-        )
-      )
-      .catch((err) => console.log(err));
+  // getCityCoords(searchCity) {
+  //   fetch(
+  //     `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchCity}&format=json`
+  //   )
+  //     .then((resp) => resp.json())
+  //     .then((data) =>
+  //       this.setState(
+  //         {
+  //           city: data[0].display_name,
+  //           latitude: data[0].lat,
+  //           longitude: data[0].lon,
+  //         },
+  //         this.getWeather(data[0].lat, data[0].lon)
+  //       )
+  //     )
+  //     .catch((err) => console.log(err));
+  // }
+
+  async getCityCoords(searchCity) {
+    try {
+      let resp = await fetch(
+        `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchCity}&format=json`
+      );
+      let data = await resp.json();
+      console.log(data);
+      this.setState(
+        {
+          city: data[0].display_name,
+          latitude: data[0].lat,
+          longitude: data[0].lon,
+        },
+        () => this.getWeather(data[0].lat, data[0].lon)
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  getWeather(latitude, longitude) {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_KEY}`
-    )
-      .then((response) => response.json())
-      .then((data) =>
-        this.setState(
-          {
-            current: data.current,
-            dailyForecast: data.daily,
-            loaded: true,
-          },
-          () => this.decideBackground(data.current)
-        )
+  // getWeather(latitude, longitude) {
+  //   fetch(
+  //     `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_KEY}`
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) =>
+  //       this.setState(
+  //         {
+  //           current: data.current,
+  //           dailyForecast: data.daily,
+  //           loaded: true,
+  //         },
+  //         () => this.decideBackground(data.current)
+  //       )
+  //     );
+  // }
+
+  async getWeather(latitude, longitude) {
+    try {
+      let response = await fetch(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_KEY}`
       );
+      let data = await response.json();
+      this.setState(
+        {
+          current: data.current,
+          dailyForecast: data.daily,
+          loaded: true,
+        },
+        () => this.decideBackground(data.current)
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   decideBackground(current) {
