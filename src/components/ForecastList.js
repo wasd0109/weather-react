@@ -9,11 +9,12 @@ function ForecastList({ dailyForecast, onBlockClick }) {
         const { dt, humidity } = forecast;
         const temp = forecast.temp.day;
         const feels_like = forecast.feels_like.day;
-        const { description, icon } = forecast.weather[0];
+        const { description, icon, main } = forecast.weather[0];
         return (
           <div key={dt}>
             <ForecastBlock
               className="md:flex md:flex-wrap "
+              main={main}
               id={i + 1}
               dt={dt}
               humidity={humidity}
