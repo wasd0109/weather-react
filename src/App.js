@@ -68,8 +68,7 @@ class App extends React.Component {
       );
   }
 
-  getCityCoords() {
-    const { searchCity } = this.state;
+  getCityCoords(searchCity) {
     fetch(
       `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchCity}&format=json`
     )
@@ -81,7 +80,7 @@ class App extends React.Component {
             latitude: data[0].lat,
             longitude: data[0].lon,
           },
-          this.getWeather
+          this.getWeather(data[0].lat, data[0].lon)
         )
       )
       .catch((err) => console.log(err));
@@ -149,15 +148,16 @@ class App extends React.Component {
 
   onSearchClick = () => {
     const { searchCity } = this.state;
+    console.log(searchCity);
     if (searchCity.length !== 0) {
-      this.getCityCoords();
+      this.getCityCoords(searchCity);
     }
   };
 
   onSearchEnterKey = (event) => {
     const { searchCity } = this.state;
     if (event.which === 13 && searchCity.length !== 0) {
-      this.getCityCoords();
+      this.getCityCoords(searchCity);
     }
   };
 
