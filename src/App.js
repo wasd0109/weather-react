@@ -29,7 +29,6 @@ class App extends React.Component {
   }
 
   getGeolocation() {
-    const { latitude, longitude } = this.state;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => this.setGeolocation(position.coords),
@@ -41,19 +40,20 @@ class App extends React.Component {
     }
   }
 
-  setGeolocation(position) {
-    const { latitude, longitude } = position;
+  setGeolocation(coords) {
+    const { latitude, longitude } = coords;
     this.setState(
       {
         latitude: latitude,
         longitude: longitude,
       },
-      this.getCityName
+      () => {
+        this.getCityName(latitude, longitude);
+      }
     );
   }
 
-  getCityName() {
-    const { latitude, longitude } = this.state;
+  getCityName(latitude, longitude) {
     fetch(
       `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&lat=${latitude}&lon=${longitude}&format=json`
     )
@@ -63,7 +63,7 @@ class App extends React.Component {
           {
             city: data.address.city ? data.address.city : data.address.country,
           },
-          this.getWeather
+          () => this.getWeather(latitude, longitude)
         )
       );
   }
@@ -87,9 +87,9 @@ class App extends React.Component {
       .catch((err) => console.log(err));
   }
 
-  getWeather() {
+  getWeather(latitude, longitude) {
     fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${this.state.latitude}&lon=${this.state.longitude}&exclude=minutely,hourly&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_KEY}`
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${process.env.REACT_APP_OPEN_WEATHER_MAP_KEY}`
     )
       .then((response) => response.json())
       .then((data) =>
@@ -99,13 +99,12 @@ class App extends React.Component {
             dailyForecast: data.daily,
             loaded: true,
           },
-          this.decideBackground
+          () => this.decideBackground(data.current)
         )
       );
   }
 
-  decideBackground() {
-    const { current } = this.state;
+  decideBackground(current) {
     const weather = current.weather[0].main.toLowerCase();
     let backgroundPath = "";
     switch (String(weather)) {
