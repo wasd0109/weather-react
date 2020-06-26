@@ -24,7 +24,7 @@ class App extends React.Component {
       searchCity: "",
       locationDisabled: false,
       loaded: false,
-      backgroundPath: "https://wallpaper.dog/large/965994.jpg",
+      backgroundPath: "",
     };
   }
 
@@ -107,73 +107,33 @@ class App extends React.Component {
   decideBackground() {
     const { current } = this.state;
     const weather = current.weather[0].main.toLowerCase();
+    let backgroundPath = "";
     switch (String(weather)) {
       case "clear":
-        this.setState({
-          backgroundPath: "https://wallpaper.dog/large/965994.jpg",
-        });
+        backgroundPath = "https://wallpaper.dog/large/965994.jpg";
         break;
       case "rain":
       case "drizzle":
-        this.setState({
-          backgroundPath:
-            "https://avatars.mds.yandex.net/get-pdb/1342781/55b90480-4af4-49ae-90ea-4c7a7de5f870/orig",
-        });
+        backgroundPath =
+          "https://avatars.mds.yandex.net/get-pdb/1342781/55b90480-4af4-49ae-90ea-4c7a7de5f870/orig";
         break;
       case "thunderstorm":
-        this.setState({
-          backgroundPath:
-            "https://upload.wikimedia.org/wikipedia/commons/8/82/Lightning_Pritzerbe_01_%28MK%29.jpg",
-        });
+        backgroundPath =
+          "https://upload.wikimedia.org/wikipedia/commons/8/82/Lightning_Pritzerbe_01_%28MK%29.jpg";
         break;
       case "snow":
-        this.setState({
-          backgroundPath:
-            "https://wordpress.accuweather.com/wp-content/uploads/2020/05/cropped-EXkyP-GWoAIHUxE.jpg",
-        });
+        backgroundPath =
+          "https://wordpress.accuweather.com/wp-content/uploads/2020/05/cropped-EXkyP-GWoAIHUxE.jpg";
         break;
       case "fog":
-        this.setState({
-          backgroundPath:
-            "https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/weather/fog--mist/fog-in-the-treetops.jpg",
-        });
+        backgroundPath =
+          "https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/weather/fog--mist/fog-in-the-treetops.jpg";
         break;
       default:
-        this.setState({
-          backgroundPath:
-            "https://s7d2.scene7.com/is/image/TWCNews/clouds_jpg_jpg-2",
-        });
+        backgroundPath =
+          "https://s7d2.scene7.com/is/image/TWCNews/clouds_jpg_jpg-2";
     }
-    // if (weather.includes("clear")) {
-    //   this.setState({
-    //     backgroundPath: "https://wallpaper.dog/large/965994.jpg",
-    //   });
-    // } else if (weather.includes("rain") || weather.includes("drizzle")) {
-    //   this.setState({
-    //     backgroundPath:
-    //       "https://avatars.mds.yandex.net/get-pdb/1342781/55b90480-4af4-49ae-90ea-4c7a7de5f870/orig",
-    //   });
-    // } else if (weather.includes("thunderstorm")) {
-    //   this.setState({
-    //     backgroundPath:
-    //       "https://upload.wikimedia.org/wikipedia/commons/8/82/Lightning_Pritzerbe_01_%28MK%29.jpg",
-    //   });
-    // } else if (weather.includes("snow")) {
-    //   this.setState({
-    //     backgroundPath:
-    //       "https://wordpress.accuweather.com/wp-content/uploads/2020/05/cropped-EXkyP-GWoAIHUxE.jpg",
-    //   });
-    // } else if (weather.includes("fog")) {
-    //   this.setState({
-    //     backgroundPath:
-    //       "https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/weather/fog--mist/fog-in-the-treetops.jpg",
-    //   });
-    // } else {
-    //   this.setState({
-    //     backgroundPath:
-    //       "https://s7d2.scene7.com/is/image/TWCNews/clouds_jpg_jpg-2",
-    //   });
-    // }
+    this.setState({ backgroundPath: backgroundPath });
   }
 
   onBlockClick = (event) => {
