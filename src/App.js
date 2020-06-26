@@ -262,7 +262,7 @@ class App extends React.Component {
           />
           <Warning
             messageTitle={"Search Error"}
-            message={"Please enter a valid location"}
+            message={"Location not found"}
             condition={searchError}
           />
           <Alert
