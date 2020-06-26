@@ -2,24 +2,25 @@ import React from "react";
 import "./DetailedPage.css";
 import moment from "moment";
 
+const objectMap = (obj, fn) =>
+  Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
+
 function DetailedPage({ route, dailyForecast, onPopupClick }) {
   if (route === "home") {
-    return <div className="hidden">Not in use</div>;
+    return <div className="hidden"></div>;
   } else {
     const kelvinToCelsius = -273.15;
     const monthOffset = 1;
     const { dt, sunrise, sunset, temp, weather } = dailyForecast[route];
-    const objectMap = (obj, fn) =>
-      Object.fromEntries(
-        Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)])
-      );
     const tempCelsius = objectMap(temp, (t) =>
       (t + kelvinToCelsius).toFixed(1)
     );
-    const { morn, day, eve, night, min, max } = tempCelsius;
+    const { morn, afternoon, eve, night, min, max } = tempCelsius;
     const { icon } = weather[0];
-    const month = ("0" + (moment.unix(dt).month() + monthOffset)).slice(-2);
-    const date = ("0" + moment.unix(dt).date()).slice(-2);
+    const day = moment.unix(dt);
+    const date = `${("0" + (day.month() + monthOffset)).slice(-2)}/${(
+      "0" + day.date()
+    ).slice(-2)}`;
     const sunriseTime = `${("0" + moment.unix(sunrise).hour()).slice(-2)}:${(
       "0" + moment.unix(sunrise).minute()
     ).slice(-2)}`;
@@ -50,7 +51,7 @@ function DetailedPage({ route, dailyForecast, onPopupClick }) {
               <p className="text-3xl">{max}°C</p>
               <p className="text-sm">Min</p>
               <p className="text-3xl">{min}°C</p>
-              <p className=" text-3xl">{`${month}/${date}`}</p>
+              <p className=" text-3xl">{`${date}`}</p>
             </div>
           </div>
           <div className="flex justify-center">
@@ -70,7 +71,7 @@ function DetailedPage({ route, dailyForecast, onPopupClick }) {
             </div>
             <div className="m-2">
               <p>Afternoon</p>
-              <p className="text-xl">{day}°C</p>
+              <p className="text-xl">{afternoon}°C</p>
             </div>
             <div className="m-2">
               <p>Evening</p>

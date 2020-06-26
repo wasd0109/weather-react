@@ -5,18 +5,20 @@ import moment from "moment";
 
 const blockColor = (main) => {
   const weather = main.toLowerCase();
-  if (weather.includes("clear")) {
-    return "bg-blue-200";
-  } else if (weather.includes("rain") || weather.includes("drizzle")) {
-    return "bg-gray-500";
-  } else if (weather.includes("thunderstorm")) {
-    return "bg-yellow-300";
-  } else if (weather.includes("snow")) {
-    return "bg-white";
-  } else if (weather.includes("fog")) {
-    return "bg-gray-300";
-  } else {
-    return "bg-gray-200";
+  switch (String(weather)) {
+    case "clear":
+      return "bg-blue-200";
+    case "rain":
+    case "drizzle":
+      return "bg-gray-500";
+    case "thunderstorm":
+      return "bg-yellow-300";
+    case "snow":
+      return "bg-white";
+    case "fog":
+      return "bg-gray-300";
+    default:
+      return "bg-gray-200";
   }
 };
 
@@ -24,11 +26,13 @@ function CurrentBlock({ current, onBlockClick }) {
   const { dt, temp, feels_like, humidity, weather } = current;
   const { description, icon, main } = weather[0];
   const monthOffset = 1;
-  const month = ("0" + (moment.unix(dt).month() + monthOffset)).slice(-2);
-  const date = ("0" + moment.unix(dt).date()).slice(-2);
   const kelvinToCelsius = -273.15;
-  const tempCelsius = temp + kelvinToCelsius;
-  const feels_likeCelsius = feels_like + kelvinToCelsius;
+  const day = moment.unix(dt);
+  const date = `${("0" + (day.month() + monthOffset)).slice(-2)}/${(
+    "0" + day.date()
+  ).slice(-2)}`;
+  const tempCelsius = (temp + kelvinToCelsius).toFixed(1);
+  const feels_likeCelsius = (feels_like + kelvinToCelsius).toFixed(1);
   const backgroundColor = blockColor(main);
   return (
     <button
@@ -49,10 +53,10 @@ function CurrentBlock({ current, onBlockClick }) {
           </div>
 
           <div className="justify-end m-0">
-            <p className="text-3xl">{`${tempCelsius.toFixed(1)}°C`}</p>
+            <p className="text-3xl">{`${tempCelsius}°C`}</p>
             <p className="text-sm m-0">Feels Like:</p>
-            <p className="text-2xl">{`${feels_likeCelsius.toFixed(1)}°C`}</p>
-            <p className=" text-3xl m-0">{`${month}/${date}`}</p>
+            <p className="text-2xl">{`${feels_likeCelsius}°C`}</p>
+            <p className=" text-3xl m-0">{`${date}`}</p>
           </div>
         </div>
 

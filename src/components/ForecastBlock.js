@@ -1,36 +1,22 @@
 import React from "react";
 import moment from "moment";
 
-// const { timezone_offset } = data;
-// const { dt, temp, feels_like, humidity, weather } = current;
-// const { description, icon } = weather[0];
-// return (
-//   <ForecastBlock
-//     dt={dt}
-//     timezone_offset={timezone_offset}
-//     temp={temp}
-//     feels_like={feels_like}
-//     humidity={humidity}
-//     weatherDescription={description}
-//     weatherIcon={icon}
-//   />
-
-//dt,timezone_offset, temp,feels_like,humidity,weather.main/.description/.icon
-
 const blockColor = (main) => {
   const weather = main.toLowerCase();
-  if (weather.includes("clear")) {
-    return "bg-blue-200";
-  } else if (weather.includes("rain") || weather.includes("drizzle")) {
-    return "bg-gray-500";
-  } else if (weather.includes("thunderstorm")) {
-    return "bg-yellow-300";
-  } else if (weather.includes("snow")) {
-    return "bg-white";
-  } else if (weather.includes("fog")) {
-    return "bg-gray-300";
-  } else {
-    return "bg-gray-200";
+  switch (String(weather)) {
+    case "clear":
+      return "bg-blue-200";
+    case "rain":
+    case "drizzle":
+      return "bg-gray-500";
+    case "thunderstorm":
+      return "bg-yellow-300";
+    case "snow":
+      return "bg-white";
+    case "fog":
+      return "bg-gray-300";
+    default:
+      return "bg-gray-200";
   }
 };
 
@@ -46,13 +32,14 @@ function ForecastBlock({
   main,
 }) {
   const monthOffset = 1;
-  const month = ("0" + (moment.unix(dt).month() + monthOffset)).slice(-2);
-  const date = ("0" + moment.unix(dt).date()).slice(-2);
   const kelvinToCelsius = -273.15;
+  const day = moment.unix(dt);
+  const date = `${("0" + (day.month() + monthOffset)).slice(-2)}/${(
+    "0" + day.date()
+  ).slice(-2)}`;
   const backgroundColor = blockColor(main);
-  console.log(backgroundColor);
-  temp += kelvinToCelsius;
-  feels_like += kelvinToCelsius;
+  const tempCelsius = (temp + kelvinToCelsius).toFixed(1);
+  const feels_likeCelsius = (feels_like + kelvinToCelsius).toFixed(1);
   return (
     <button
       className="transform hover:scale-105 m-4"
@@ -73,10 +60,10 @@ function ForecastBlock({
             </div>
 
             <div className="justify-end m-0">
-              <p className="text-3xl">{`${temp.toFixed(1)}°C`}</p>
+              <p className="text-3xl">{`${tempCelsius}°C`}</p>
               <p className="text-sm m-0">Feels Like:</p>
-              <p className="text-2xl">{`${feels_like.toFixed(1)}°C`}</p>
-              <p className="text-3xl m-0">{`${month}/${date}`}</p>
+              <p className="text-2xl">{`${feels_likeCelsius}°C`}</p>
+              <p className="text-3xl m-0">{`${date}`}</p>
             </div>
           </div>
 
