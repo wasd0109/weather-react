@@ -34,10 +34,7 @@ class App extends React.Component {
       navigator.geolocation.getCurrentPosition(
         (position) => this.setGeolocation(position.coords),
         () => {
-          this.setGeolocation({
-            latitude: latitude,
-            longitude: longitude,
-          });
+          this.getCityName();
           this.setState({ locationDisabled: true });
         }
       );
@@ -51,11 +48,11 @@ class App extends React.Component {
         latitude: latitude,
         longitude: longitude,
       },
-      this.getCity
+      this.getCityName
     );
   }
 
-  getCity() {
+  getCityName() {
     const { latitude, longitude } = this.state;
     fetch(
       `https://us1.locationiq.com/v1/reverse.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&lat=${latitude}&lon=${longitude}&format=json`
@@ -110,6 +107,25 @@ class App extends React.Component {
   decideBackground() {
     const { current } = this.state;
     const weather = current.weather[0].main.toLowerCase();
+    // switch (String(weather)) {
+    //   case "clear":
+    //     this.setState({
+    //       backgroundPath: "https://wallpaper.dog/large/965994.jpg",
+    //     });
+    //     break;
+    //   case "rain":
+    //     this.setState({
+    //       backgroundPath:
+    //         "https://avatars.mds.yandex.net/get-pdb/1342781/55b90480-4af4-49ae-90ea-4c7a7de5f870/orig",
+    //     });
+    //     break;
+    //   default:
+    //     this.setState({
+    //       backgroundPath:
+    //         "https://s7d2.scene7.com/is/image/TWCNews/clouds_jpg_jpg-2",
+    //     });
+
+    // }
     if (weather.includes("clear")) {
       this.setState({
         backgroundPath: "https://wallpaper.dog/large/965994.jpg",
@@ -207,7 +223,11 @@ class App extends React.Component {
             onSearchClick={this.onSearchClick}
             onSearchEnterKey={this.onSearchEnterKey}
           />
-          <Warning locationDisabled={locationDisabled} />
+          <Warning
+            messageTitle={"Location Service Disabled"}
+            message={"Please enable it to see forecasts of current location"}
+            condition={locationDisabled}
+          />
           <CurrentBlock
             className="block"
             current={current}
