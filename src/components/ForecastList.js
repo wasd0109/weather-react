@@ -3,7 +3,7 @@ import ForecastBlock from "./ForecastBlock";
 
 function ForecastList({ dailyForecast, onBlockClick }) {
   dailyForecast = dailyForecast.filter((forecast, i) => i > 0); //Remove today from list
-  if (false) {
+  if (dailyForecast !== undefined) {
     return (
       <div className="md:flex md:flex-wrap">
         {dailyForecast.map((forecast, i) => {
