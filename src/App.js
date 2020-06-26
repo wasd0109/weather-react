@@ -10,6 +10,7 @@ import SearchSuggestion from "./components/SearchSuggestion";
 import "./App.css";
 import "./output.css";
 import githubIcon from "./assets/github.png";
+import SearchLocationInput from "./components/SearchLocationInput";
 
 class App extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class App extends React.Component {
       city: "",
       route: "home",
       detailHidden: "true",
-      searchCity: "",
+      searchInput: "",
       locationDisabled: false,
       loaded: false,
       backgroundPath: "",
@@ -88,9 +89,9 @@ class App extends React.Component {
     );
   }
 
-  // getCityCoords(searchCity) {
+  // getCityCoords(searchInput) {
   //   fetch(
-  //     `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchCity}&format=json`
+  //     `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchInput}&format=json`
   //   )
   //     .then((resp) => resp.json())
   //     .then((data) =>
@@ -106,10 +107,10 @@ class App extends React.Component {
   //     .catch((err) => console.log(err));
   // }
 
-  async getCityCoords(searchCity) {
+  async getCityCoords(searchInput) {
     try {
       let resp = await fetch(
-        `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchCity}&format=json`
+        `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_IQ_KEY}&q=${searchInput}&format=json`
       );
       let data = await resp.json();
       const { display_name, lat, lon } = data[0];
@@ -163,6 +164,16 @@ class App extends React.Component {
     }
   }
 
+  async getSearchSuggestion() {
+    const { searchInput } = this.state;
+    const resp = await fetch(
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${searchInput}&key=${process.env.REACT_APP_GOOGLE_PLACE_API_KEY}&types=(cities)`,
+      { method: "POST" }
+    );
+    const data = await resp.json();
+    console.log(data);
+  }
+
   decideBackground(current) {
     const weather = current.weather[0].main.toLowerCase();
     let backgroundPath = "";
@@ -203,22 +214,32 @@ class App extends React.Component {
   };
 
   onSearchChange = (event) => {
-    this.setState({ searchCity: event.target.value });
+    this.setState(
+      { searchInput: event.target.value },
+      this.getSearchSuggestion
+    );
   };
 
   onSearchClick = () => {
-    const { searchCity } = this.state;
-    console.log(searchCity);
-    if (searchCity.length !== 0) {
-      this.getCityCoords(searchCity);
+    const { searchInput } = this.state;
+    console.log(searchInput);
+    if (searchInput.length !== 0) {
+      this.getCityCoords(searchInput);
     }
   };
 
   onSearchEnterKey = (event) => {
-    const { searchCity } = this.state;
-    if (event.which === 13 && searchCity.length !== 0) {
-      this.getCityCoords(searchCity);
+    const { searchInput } = this.state;
+    if (event.which === 13 && searchInput.length !== 0) {
+      this.getCityCoords(searchInput);
     }
+  };
+
+  onSuggestionClick = (event) => {
+    const searchText = event.target.textContent;
+    const searchBar = document.getElementById("search");
+    searchBar.value = searchText;
+    this.setState({ searchInput: searchText });
   };
 
   componentDidMount() {
@@ -261,7 +282,8 @@ class App extends React.Component {
             onSearchClick={this.onSearchClick}
             onSearchEnterKey={this.onSearchEnterKey}
           />
-          <SearchSuggestion />
+          <SearchLocationInput />
+          <SearchSuggestion onSuggestionClick={this.onSuggestionClick} />
           <Warning
             messageTitle={"Search Error"}
             message={"Location not found"}

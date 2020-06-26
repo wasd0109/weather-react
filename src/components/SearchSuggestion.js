@@ -2,7 +2,7 @@ import React from "react";
 import "./SearchSuggestion.css";
 import suggestionList from "./Suggestion.json";
 
-function SearchSuggestion() {
+function SearchSuggestion({ onSuggestionClick }) {
   const { predictions } = suggestionList;
 
   return (
@@ -11,12 +11,13 @@ function SearchSuggestion() {
         const { description } = prediction;
         return (
           <div className="flex" key={i}>
-            <button
+            <div
               id="suggestion"
-              className="ml-4 h-10 bg-white cursor-pointer"
+              className="ml-4 pt-2 h-10 bg-white cursor-pointer text-left pl-2"
+              onClick={onSuggestionClick}
             >
-              <p className="text-left pl-2"> {description}</p>
-            </button>
+              {description}
+            </div>
           </div>
         );
       })}
