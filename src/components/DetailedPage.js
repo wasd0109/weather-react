@@ -17,7 +17,6 @@ function DetailedPage({ route, dailyForecast, onPopupClick, onButtonClick }) {
       (t + kelvinToCelsius).toFixed(1)
     );
     const { morn, day, eve, night, min, max } = tempCelsius;
-    console.log(day);
     const { icon } = weather[0];
     const date = moment.unix(dt);
     const dateString = `${("0" + (date.month() + monthOffset)).slice(-2)}/${(
