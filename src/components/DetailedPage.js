@@ -16,11 +16,11 @@ function DetailedPage({ route, dailyForecast, onPopupClick, onButtonClick }) {
     const tempCelsius = objectMap(temp, (t) =>
       (t + kelvinToCelsius).toFixed(1)
     );
-    const { morn, afternoon, eve, night, min, max } = tempCelsius;
+    const { morn, day, eve, night, min, max } = tempCelsius;
     const { icon } = weather[0];
-    const day = moment.unix(dt);
-    const date = `${("0" + (day.month() + monthOffset)).slice(-2)}/${(
-      "0" + day.date()
+    const date = moment.unix(dt);
+    const dateString = `${("0" + (date.month() + monthOffset)).slice(-2)}/${(
+      "0" + date.date()
     ).slice(-2)}`;
     const sunriseTime = `${("0" + moment.unix(sunrise).hour()).slice(-2)}:${(
       "0" + moment.unix(sunrise).minute()
@@ -59,7 +59,7 @@ function DetailedPage({ route, dailyForecast, onPopupClick, onButtonClick }) {
               <p className="text-3xl">{max}°C</p>
               <p className="text-sm">Min</p>
               <p className="text-3xl">{min}°C</p>
-              <p className=" text-3xl">{`${date}`}</p>
+              <p className=" text-3xl">{`${dateString}`}</p>
             </div>
           </div>
           <div className="flex justify-center">
@@ -79,7 +79,7 @@ function DetailedPage({ route, dailyForecast, onPopupClick, onButtonClick }) {
             </div>
             <div className="m-2">
               <p>Afternoon</p>
-              <p className="text-xl">{afternoon}°C</p>
+              <p className="text-xl">{day}°C</p>
             </div>
             <div className="m-2">
               <p>Evening</p>
