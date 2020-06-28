@@ -6,7 +6,7 @@ function SearchBar({ onSearchChange, onSearchClick, onSearchEnterKey }) {
     <div>
       <div className="flex">
         <input
-          className="m-4 mr-0 h-12 placeholder-blue-800"
+          className="pl-2 m-4 mr-0 h-12 placeholder-blue-800"
           type="text"
           name=""
           id="search"
