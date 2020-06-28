@@ -37,7 +37,6 @@ function CurrentBlock({ current, onBlockClick }) {
     const backgroundColor = blockColor(main);
     return (
       <div className="flex justify-center md:justify-start">
-        {" "}
         <button
           className="transform hover:scale-105 m-4 block"
           onClick={onBlockClick}
