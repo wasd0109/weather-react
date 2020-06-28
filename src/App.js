@@ -235,7 +235,7 @@ class App extends React.Component {
             hidden={detailHidden}
             onClickHome={this.onClickHome}
           />
-          <h1 className="ml-4 md:text-2xl">
+          <h1 className="text-center md:ml-4 md:text-2xl md:text-left">
             Weather in <span className="text-4xl">{city}</span>
           </h1>
           <SearchBar
@@ -263,7 +263,9 @@ class App extends React.Component {
             current={current}
             onBlockClick={this.onBlockClick}
           ></CurrentBlock>
-          <h2 className="text-2xl ml-4">7 Day forecast</h2>
+          <h2 className="text-center text-2xl md:ml-4 md:text-left">
+            7 Day forecast
+          </h2>
           <ForecastList
             dailyForecast={dailyForecast}
             onBlockClick={this.onBlockClick}

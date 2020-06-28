@@ -5,7 +5,7 @@ function ForecastList({ dailyForecast, onBlockClick }) {
   dailyForecast = dailyForecast.filter((forecast, i) => i > 0); //Remove today from list
   if (dailyForecast !== undefined) {
     return (
-      <div className="md:flex md:flex-wrap">
+      <div className="flex justify-center flex-wrap md:justify-start">
         {dailyForecast.map((forecast, i) => {
           const { dt, humidity } = forecast;
           const temp = forecast.temp.day;

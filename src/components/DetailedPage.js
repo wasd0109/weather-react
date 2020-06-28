@@ -29,7 +29,7 @@ function DetailedPage({ route, dailyForecast, onClickHome }) {
       "0" + moment.unix(sunset).minute()
     ).slice(-2)}`;
     return (
-      <div>
+      <div className="flex justify-center self-center">
         <div
           id="outsidePop"
           className="bg-black bg-opacity-75 hover:bg-opacity-50 fixed cursor-pointer z-10"
@@ -62,17 +62,17 @@ function DetailedPage({ route, dailyForecast, onClickHome }) {
               <p className=" text-3xl">{`${dateString}`}</p>
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center text-center">
             <div className="mx-4">
-              <p>Sunrise at:</p>
+              <p>Sunrise at</p>
               <p className="text-2xl">{sunriseTime}</p>
             </div>
             <div className="mx-4">
-              <p>Sunset at:</p>
+              <p>Sunset at</p>
               <p className="text-2xl">{sunsetTime}</p>
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center text-center">
             <div className="m-2">
               <p>Morning</p>
               <p className="text-xl">{morn}°C</p>
