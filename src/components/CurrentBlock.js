@@ -36,40 +36,43 @@ function CurrentBlock({ current, onBlockClick }) {
     const feels_likeCelsius = (feels_like + kelvinToCelsius).toFixed(1);
     const backgroundColor = blockColor(main);
     return (
-      <button
-        className="transform hover:scale-105 m-4 block  "
-        onClick={onBlockClick}
-        id="0"
-      >
-        <div
-          className={`max-w-lg rounded overflow-hidden shadow-lg ${backgroundColor} p-4`}
+      <div className="flex justify-center md:justify-start">
+        {" "}
+        <button
+          className="transform hover:scale-105 m-4 block"
+          onClick={onBlockClick}
+          id="0"
         >
-          <div className="flex mr-2">
-            <div>
-              <img
-                className="w-32"
-                src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
-                alt="Current Weather"
-              />
+          <div
+            className={`max-w-lg rounded overflow-hidden shadow-lg ${backgroundColor} p-4`}
+          >
+            <div className="flex mr-2">
+              <div>
+                <img
+                  className="w-32"
+                  src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
+                  alt="Current Weather"
+                />
+              </div>
+
+              <div className="justify-end m-0">
+                <p className="text-3xl">{`${tempCelsius}°C`}</p>
+                <p className="text-sm m-0">Feels Like:</p>
+                <p className="text-2xl">{`${feels_likeCelsius}°C`}</p>
+                <p className=" text-3xl m-0">{`${dateString}`}</p>
+              </div>
             </div>
 
-            <div className="justify-end m-0">
-              <p className="text-3xl">{`${tempCelsius}°C`}</p>
-              <p className="text-sm m-0">Feels Like:</p>
-              <p className="text-2xl">{`${feels_likeCelsius}°C`}</p>
-              <p className=" text-3xl m-0">{`${dateString}`}</p>
-            </div>
+            <p className="">
+              Weather: <span className="text-lg capitalize">{description}</span>
+            </p>
+
+            <p className="">
+              Humidity: <span className="text-xl">{`${humidity}%`}</span>
+            </p>
           </div>
-
-          <p className="">
-            Weather: <span className="text-lg capitalize">{description}</span>
-          </p>
-
-          <p className="">
-            Humidity: <span className="text-xl">{`${humidity}%`}</span>
-          </p>
-        </div>
-      </button>
+        </button>
+      </div>
     );
   }
   return (
