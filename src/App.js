@@ -27,8 +27,37 @@ class App extends React.Component {
       searchCity: "",
       locationDisabled: false,
       loaded: false,
+      searchError: false,
+      invalidSearch: false,
       backgroundPath: "",
     };
+  }
+
+  showSearchError() {
+    this.setState({ invalidSearch: true }, () => {
+      setTimeout(() => {
+        this.setState({ invalidSearch: false });
+      }, 2000);
+    });
+  }
+
+  showInvalidError() {
+    this.setState({ invalidSearch: true }, () => {
+      setTimeout(() => {
+        this.setState({ invalidSearch: false });
+      }, 2000);
+    });
+  }
+
+  checkSearchValid(searchCity) {
+    if (
+      searchCity.match(/[^\w\s]/gm) ||
+      searchCity.match(/[\d]/gm) ||
+      searchCity.length === 0
+    ) {
+      return false;
+    }
+    return true;
   }
 
   getGeolocation() {
@@ -88,11 +117,7 @@ class App extends React.Component {
         () => this.getWeather(lat, lon)
       );
     } catch (err) {
-      this.setState({ searchError: true }, () => {
-        setTimeout(() => {
-          this.setState({ searchError: false });
-        }, 2000);
-      });
+      this.showSearchError();
     }
   }
 
@@ -112,7 +137,7 @@ class App extends React.Component {
         () => this.decideBackground(current)
       );
     } catch (err) {
-      console.log(err);
+      this.showSearchError();
     }
   }
 
@@ -151,10 +176,7 @@ class App extends React.Component {
     this.setState({ route: event.currentTarget.id });
   };
 
-  onPopupClick = () => {
-    this.setState({ route: "home" });
-  };
-  onButtonClick = () => {
+  onClickHome = () => {
     this.setState({ route: "home" });
   };
 
@@ -164,16 +186,19 @@ class App extends React.Component {
 
   onSearchClick = () => {
     const { searchCity } = this.state;
-    console.log(searchCity);
-    if (searchCity.length !== 0) {
-      this.getCityCoords(searchCity);
+    if (this.checkSearchValid(searchCity)) {
+      return this.getCityCoords(searchCity);
     }
+    this.showInvalidError();
   };
 
   onSearchEnterKey = (event) => {
     const { searchCity } = this.state;
     if (event.which === 13 && searchCity.length !== 0) {
-      this.getCityCoords(searchCity);
+      if (this.checkSearchValid(searchCity)) {
+        return this.getCityCoords(searchCity);
+      }
+      this.showInvalidError();
     }
   };
 
@@ -192,6 +217,7 @@ class App extends React.Component {
       loaded,
       backgroundPath,
       searchError,
+      invalidSearch,
     } = this.state;
     if (loaded) {
       return (
@@ -207,8 +233,7 @@ class App extends React.Component {
             route={route}
             dailyForecast={dailyForecast}
             hidden={detailHidden}
-            onPopupClick={this.onPopupClick}
-            onButtonClick={this.onButtonClick}
+            onClickHome={this.onClickHome}
           />
           <h1 className="ml-4 md:text-2xl">
             Weather in <span className="text-4xl">{city}</span>
@@ -217,6 +242,11 @@ class App extends React.Component {
             onSearchChange={this.onSearchChange}
             onSearchClick={this.onSearchClick}
             onSearchEnterKey={this.onSearchEnterKey}
+          />
+          <Warning
+            messageTitle={"Search Error"}
+            message={"Please enter a valid location"}
+            condition={invalidSearch}
           />
           <Warning
             messageTitle={"Search Error"}

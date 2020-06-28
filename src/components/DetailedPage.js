@@ -6,7 +6,7 @@ import closeBtn from "../assets/close-button.svg";
 const objectMap = (obj, fn) =>
   Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]));
 
-function DetailedPage({ route, dailyForecast, onPopupClick, onButtonClick }) {
+function DetailedPage({ route, dailyForecast, onClickHome }) {
   if (route === "home") {
     return <div className="hidden"></div>;
   } else {
@@ -33,7 +33,7 @@ function DetailedPage({ route, dailyForecast, onPopupClick, onButtonClick }) {
         <div
           id="outsidePop"
           className="bg-black bg-opacity-75 hover:bg-opacity-50 fixed cursor-pointer z-10"
-          onClick={onPopupClick}
+          onClick={onClickHome}
         ></div>
         <div
           id="popup"
@@ -43,13 +43,13 @@ function DetailedPage({ route, dailyForecast, onPopupClick, onButtonClick }) {
             src={closeBtn}
             className="w-4 h-auto cursor-pointer absolute top-0 right-0 m-4"
             alt=""
-            onClick={onButtonClick}
+            onClick={onClickHome}
           />
           <div className="flex justify-center">
             <div>
               <img
                 className="mr-8"
-                src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
+                src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
                 alt="Current Weather"
               />
             </div>
