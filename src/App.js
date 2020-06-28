@@ -288,7 +288,7 @@ class App extends React.Component {
             by Ken Cheung
             <a href="https://github.com/wasd0109">
               <img
-                className="w-6 inline mx-4"
+                className="w-6 inline mx-2"
                 src={githubIcon}
                 alt="github icon"
               />
