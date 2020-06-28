@@ -54,7 +54,7 @@ function ForecastBlock({
             <div>
               <img
                 className="w-32"
-                src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
+                src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
                 alt="Current Weather"
               />
             </div>
