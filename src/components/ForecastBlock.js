@@ -33,9 +33,9 @@ function ForecastBlock({
 }) {
   const monthOffset = 1;
   const kelvinToCelsius = -273.15;
-  const day = moment.unix(dt);
-  const date = `${("0" + (day.month() + monthOffset)).slice(-2)}/${(
-    "0" + day.date()
+  const date = moment.unix(dt);
+  const dateString = `${("0" + (date.month() + monthOffset)).slice(-2)}/${(
+    "0" + date.date()
   ).slice(-2)}`;
   const backgroundColor = blockColor(main);
   const tempCelsius = (temp + kelvinToCelsius).toFixed(1);
@@ -63,7 +63,7 @@ function ForecastBlock({
               <p className="text-3xl">{`${tempCelsius}°C`}</p>
               <p className="text-sm m-0">Feels Like:</p>
               <p className="text-2xl">{`${feels_likeCelsius}°C`}</p>
-              <p className="text-3xl m-0">{`${date}`}</p>
+              <p className="text-3xl m-0">{`${dateString}`}</p>
             </div>
           </div>
 
