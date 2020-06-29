@@ -9,6 +9,9 @@ import Warning from "./components/Warning";
 import "./App.css";
 import "./output.css";
 import githubIcon from "./assets/github.png";
+import ReactGA from "react-ga";
+ReactGA.initialize("UA-171012457-1");
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 class App extends React.Component {
   constructor(props) {
